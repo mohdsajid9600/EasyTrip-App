@@ -66,94 +66,96 @@ const Header = () => {
         { name: 'Support', path: '/support' },
     ];
 
-    const isLoginPage = location.pathname === '/login';
+    const isAuthPage = ['/login', '/signup'].includes(location.pathname);
 
     return (
-        <header
-            className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b h-16 ${scrolled || isLoginPage
-                ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg border-gray-200 dark:border-slate-700'
-                : 'bg-transparent border-transparent'
-                }`}
-        >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-                <div className="flex justify-between items-center h-full">
+        <>
+            <header
+                className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b h-16 ${scrolled || isAuthPage
+                    ? 'bg-white/90 dark:bg-slate-900/90 backdrop-blur-md shadow-lg border-gray-200 dark:border-slate-700'
+                    : 'bg-transparent border-transparent'
+                    }`}
+            >
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+                    <div className="flex justify-between items-center h-full">
 
-                    {/* Left Section: Logo */}
-                    <Link to="/" className="flex items-center gap-2 group">
-                        <div className="bg-indigo-600 p-2 rounded-xl text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
-                            <Car size={24} strokeWidth={2.5} />
-                        </div>
-                        <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
-                            Easy<span className="text-indigo-600">Trip</span>
-                        </span>
-                    </Link>
+                        {/* Left Section: Logo */}
+                        <Link to="/" className="flex items-center gap-2 group">
+                            <div className="bg-indigo-600 p-2 rounded-xl text-white shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                <Car size={24} strokeWidth={2.5} />
+                            </div>
+                            <span className="text-2xl font-black text-gray-900 dark:text-white tracking-tight">
+                                Easy<span className="text-indigo-600">Trip</span>
+                            </span>
+                        </Link>
 
-                    {/* Center Section: Navigation */}
-                    <nav className="hidden lg:flex items-center space-x-1">
-                        {navLinks.map((link) => (
-                            <Link
-                                key={link.name}
-                                to={link.path}
-                                state={link.state}
-                                className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isActive(link.path)
-                                    ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30'
-                                    : 'text-gray-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-slate-800'
-                                    }`}
+                        {/* Center Section: Navigation */}
+                        <nav className="hidden lg:flex items-center space-x-1">
+                            {navLinks.map((link) => (
+                                <Link
+                                    key={link.name}
+                                    to={link.path}
+                                    state={link.state}
+                                    className={`px-4 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${isActive(link.path)
+                                        ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-900/30'
+                                        : 'text-gray-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-gray-50 dark:hover:bg-slate-800'
+                                        }`}
+                                >
+                                    {link.name}
+                                </Link>
+                            ))}
+                        </nav>
+
+                        {/* Right Section: Actions */}
+                        <div className="hidden lg:flex items-center gap-3">
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2.5 rounded-full text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-slate-700"
+                                aria-label="Toggle theme"
                             >
-                                {link.name}
-                            </Link>
-                        ))}
-                    </nav>
+                                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                            </button>
 
-                    {/* Right Section: Actions */}
-                    <div className="hidden lg:flex items-center gap-3">
-                        <button
-                            onClick={toggleTheme}
-                            className="p-2.5 rounded-full text-gray-600 dark:text-slate-300 hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors border border-transparent hover:border-gray-200 dark:hover:border-slate-700"
-                            aria-label="Toggle theme"
-                        >
-                            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                        </button>
-
-                        {user ? (
-                            <Link to={getDashboardLink()}>
-                                <Button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full font-bold shadow-indigo-500/25 shadow-xl hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition-all">
-                                    Dashboard
-                                </Button>
-                            </Link>
-                        ) : (
-                            <>
-                                <Link to="/login">
-                                    <Button variant="outline" className="px-6 py-2.5 rounded-full border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-200 font-bold hover:bg-gray-50 dark:hover:bg-slate-800">
-                                        Login
-                                    </Button>
-                                </Link>
-                                <Link to="/signup">
+                            {user ? (
+                                <Link to={getDashboardLink()}>
                                     <Button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full font-bold shadow-indigo-500/25 shadow-xl hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition-all">
-                                        Sign Up
+                                        Dashboard
                                     </Button>
                                 </Link>
-                            </>
-                        )}
-                    </div>
+                            ) : (
+                                <>
+                                    <Link to="/login">
+                                        <Button variant="outline" className="px-6 py-2.5 rounded-full border-gray-200 dark:border-slate-700 text-gray-700 dark:text-slate-200 font-bold hover:bg-gray-50 dark:hover:bg-slate-800">
+                                            Login
+                                        </Button>
+                                    </Link>
+                                    <Link to="/signup">
+                                        <Button className="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-full font-bold shadow-indigo-500/25 shadow-xl hover:shadow-indigo-500/40 transform hover:-translate-y-0.5 transition-all">
+                                            Sign Up
+                                        </Button>
+                                    </Link>
+                                </>
+                            )}
+                        </div>
 
-                    {/* Mobile Menu Toggle */}
-                    <div className="lg:hidden flex items-center gap-4">
-                        <button
-                            onClick={toggleTheme}
-                            className="p-2 rounded-full text-gray-600 dark:text-slate-300"
-                        >
-                            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-                        </button>
-                        <button
-                            onClick={() => setIsMenuOpen(!isMenuOpen)}
-                            className="p-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-slate-800 rounded-xl transition-colors"
-                        >
-                            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-                        </button>
+                        {/* Mobile Menu Toggle */}
+                        <div className="lg:hidden flex items-center gap-4">
+                            <button
+                                onClick={toggleTheme}
+                                className="p-2 rounded-full text-gray-600 dark:text-slate-300"
+                            >
+                                {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+                            </button>
+                            <button
+                                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                                className="p-2 text-gray-900 dark:text-white bg-gray-100 dark:bg-slate-800 rounded-xl transition-colors relative z-50"
+                            >
+                                {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </header>
 
             {/* Mobile Navigation Drawer Overlay */}
             <div className={`fixed inset-0 z-[60] lg:hidden transition-all duration-300 ${isMenuOpen ? 'visible' : 'invisible pointer-events-none'}`}>
@@ -228,7 +230,7 @@ const Header = () => {
                     </div>
                 </div>
             </div>
-        </header>
+        </>
     );
 };
 

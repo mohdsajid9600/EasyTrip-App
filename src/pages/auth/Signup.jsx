@@ -88,12 +88,12 @@ const Signup = () => {
     ];
 
     return (
-        <div className="min-h-screen flex flex-col font-sans bg-white dark:bg-slate-900 transition-colors duration-300">
+        <div className="min-h-screen flex flex-col font-sans bg-white dark:bg-slate-900 transition-colors duration-300 overflow-x-hidden">
             <Header />
-            <main className="flex-grow flex pt-16 animate-fade-in">
+            <main className="flex-grow flex pt-16 animate-fade-in min-h-[calc(100vh-64px)]">
 
                 {/* Left Side: Form */}
-                <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-20 overflow-y-auto">
+                <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 lg:p-20">
                     <div className="w-full max-w-lg">
                         <div className="mb-10 animate-fade-in-up">
                             <h2 className="text-4xl font-extrabold text-gray-900 dark:text-white mb-3">Join EasyTrip</h2>
@@ -206,7 +206,7 @@ const Signup = () => {
                 </div>
 
                 {/* Right Side: Illustration */}
-                <div className="hidden lg:block w-1/2 relative bg-indigo-900 overflow-hidden">
+                <div className="hidden lg:block w-1/2 relative bg-indigo-900 overflow-hidden min-h-[calc(100vh-64px)]">
                     <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?q=80&w=2070&auto=format&fit=crop')] bg-cover bg-center"></div>
                     <div className="absolute inset-0 bg-gradient-to-br from-indigo-900/90 to-black/60 backdrop-blur-[2px]"></div>
 
