@@ -1,6 +1,10 @@
 {
     "rewrites": [
         {
+            "source": "/api/(.*)",
+            "destination": "https://easytrip-api-kaeq.onrender.com/$1"
+        },
+        {
             "source": "/(.*)",
             "destination": "/index.html"
         }
