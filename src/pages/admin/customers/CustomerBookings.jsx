@@ -124,8 +124,8 @@ const CustomerBookings = () => {
     };
 
     return (
-        <div className="space-y-6 animate-fade-in-up h-[calc(100vh-6rem)] overflow-y-auto pr-2">
-            <div className="flex items-center justify-between">
+        <div className="space-y-6 animate-fade-in-up h-full pb-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                     <BackButton />
                     <div>
@@ -138,7 +138,7 @@ const CustomerBookings = () => {
             </div>
 
             {/* Filter Bar */}
-            <div className="flex flex-col sm:flex-row gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm relative z-20">
+            <div className="flex flex-col md:flex-row gap-4 bg-white dark:bg-slate-800 p-4 rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm relative z-20">
                 <div className="flex-1 relative">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
                     <input
@@ -149,15 +149,15 @@ const CustomerBookings = () => {
                         className="w-full pl-9 pr-4 py-2 bg-gray-50 dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 text-gray-900 dark:text-white"
                     />
                 </div>
-                <div className="flex gap-4">
-                    <div className="min-w-[150px]">
+                <div className="flex flex-col sm:flex-row gap-4">
+                    <div className="w-full sm:w-[150px]">
                         <AppSelect
                             options={statusOptions}
                             value={statusFilter}
                             onChange={(val) => setStatusFilter(val)}
                         />
                     </div>
-                    <div className="min-w-[150px]">
+                    <div className="w-full sm:w-[150px]">
                         <AppSelect
                             options={sortOptions}
                             value={dateSort}
@@ -181,93 +181,146 @@ const CustomerBookings = () => {
                     </p>
                 </div>
             ) : (
-                <Card className="overflow-hidden border-gray-200 dark:border-slate-700 shadow-sm dark:shadow-lg bg-white dark:bg-slate-800">
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-                            <thead className="bg-gray-50 dark:bg-slate-700/50">
-                                <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Route</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Driver</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Distance</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Fare</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Details</th>
-                                </tr>
-                            </thead>
-                            <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
-                                {displayedBookingsList.slice(page * pageSize, (page + 1) * pageSize).map((booking) => (
-                                    <tr
-                                        key={booking.bookingId}
-                                        className="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition cursor-pointer"
-                                        onClick={() => navigate(`/admin/bookings/${booking.bookingId}`)}
-                                    >
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                                            {booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString() : "-"}
-                                            <div className="text-xs text-gray-400">
-                                                {booking.bookedAt ? new Date(booking.bookedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ""}
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
-                                            <div className="flex flex-col gap-1 max-w-[200px]">
-                                                <span className="flex items-center gap-1 truncate" title={booking.pickup}>
-                                                    <MapPin size={12} className="text-green-500 flex-shrink-0" />
-                                                    <span className="truncate">{booking.pickup}</span>
-                                                </span>
-                                                <span className="flex items-center gap-1 truncate" title={booking.destination}>
-                                                    <Navigation size={12} className="text-red-500 flex-shrink-0" />
-                                                    <span className="truncate">{booking.destination}</span>
-                                                </span>
-                                            </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                                            {booking.cabResponse?.driverResponse?.name || "-"}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                                            {booking.tripDistanceInKm} km
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                                            ₹{booking.billAmount}
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border ${getStatusColor(booking.tripStatus)}`}>
-                                                {getDisplayStatus(booking.tripStatus)}
-                                            </span>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                            <span className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900">View</span>
-                                        </td>
+                <>
+                    {/* Desktop Table View */}
+                    <Card className="hidden lg:block overflow-hidden border-gray-200 dark:border-slate-700 shadow-sm dark:shadow-lg bg-white dark:bg-slate-800">
+                        <div className="overflow-x-auto">
+                            <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                                <thead className="bg-gray-50 dark:bg-slate-700/50">
+                                    <tr>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Route</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Driver</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Distance</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Fare</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
+                                        <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-slate-400 uppercase tracking-wider">Details</th>
                                     </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                                </thead>
+                                <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+                                    {displayedBookingsList.slice(page * pageSize, (page + 1) * pageSize).map((booking) => (
+                                        <tr
+                                            key={booking.bookingId}
+                                            className="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition cursor-pointer"
+                                            onClick={() => navigate(`/admin/bookings/${booking.bookingId}`)}
+                                        >
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
+                                                {booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString() : "-"}
+                                                <div className="text-xs text-gray-400">
+                                                    {booking.bookedAt ? new Date(booking.bookedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ""}
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">
+                                                <div className="flex flex-col gap-1 max-w-[200px]">
+                                                    <span className="flex items-center gap-1 truncate" title={booking.pickup}>
+                                                        <MapPin size={12} className="text-green-500 flex-shrink-0" />
+                                                        <span className="truncate">{booking.pickup}</span>
+                                                    </span>
+                                                    <span className="flex items-center gap-1 truncate" title={booking.destination}>
+                                                        <Navigation size={12} className="text-red-500 flex-shrink-0" />
+                                                        <span className="truncate">{booking.destination}</span>
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
+                                                {booking.cabResponse?.driverResponse?.name || "-"}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
+                                                {booking.tripDistanceInKm} km
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
+                                                ₹{booking.billAmount}
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap">
+                                                <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border ${getStatusColor(booking.tripStatus)}`}>
+                                                    {getDisplayStatus(booking.tripStatus)}
+                                                </span>
+                                            </td>
+                                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                                <span className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900">View</span>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </Card>
+
+                    {/* Mobile/Tablet Card View */}
+                    <div className="lg:hidden space-y-4">
+                        {displayedBookingsList.slice(page * pageSize, (page + 1) * pageSize).map((booking) => (
+                            <div
+                                key={booking.bookingId}
+                                onClick={() => navigate(`/admin/bookings/${booking.bookingId}`)}
+                                className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all active:scale-[0.99] cursor-pointer"
+                            >
+                                <div className="flex justify-between items-start mb-4">
+                                    <div>
+                                        <div className="text-sm text-gray-500 dark:text-slate-400 mb-1">
+                                            {booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString() : "-"} • {booking.bookedAt ? new Date(booking.bookedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ""}
+                                        </div>
+                                        <p className="font-semibold text-gray-900 dark:text-white">
+                                            Driver: {booking.cabResponse?.driverResponse?.name || "Unassigned"}
+                                        </p>
+                                    </div>
+                                    <span className={`px-2.5 py-1 rounded text-xs font-bold border ${getStatusColor(booking.tripStatus)}`}>
+                                        {getDisplayStatus(booking.tripStatus)}
+                                    </span>
+                                </div>
+
+                                <div className="space-y-3 relative pl-4 border-l-2 border-gray-100 dark:border-slate-700 ml-1 my-4">
+                                    <div className="relative">
+                                        <div className="absolute -left-[21px] top-1.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-slate-800 ring-1 ring-green-100 dark:ring-green-900"></div>
+                                        <p className="text-xs text-gray-400 uppercase tracking-wide">Pickup</p>
+                                        <p className="text-sm font-medium text-gray-800 dark:text-slate-200 line-clamp-1">{booking.pickup}</p>
+                                    </div>
+                                    <div className="relative">
+                                        <div className="absolute -left-[21px] top-1.5 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-slate-800 ring-1 ring-red-100 dark:ring-red-900"></div>
+                                        <p className="text-xs text-gray-400 uppercase tracking-wide">Destination</p>
+                                        <p className="text-sm font-medium text-gray-800 dark:text-slate-200 line-clamp-1">{booking.destination}</p>
+                                    </div>
+                                </div>
+
+                                <div className="flex justify-between items-center pt-3 border-t border-gray-100 dark:border-slate-700">
+                                    <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-slate-400">
+                                        <span>{booking.tripDistanceInKm} km</span>
+                                    </div>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-lg font-bold text-gray-900 dark:text-white">₹{booking.billAmount}</span>
+                                        <ChevronRight size={18} className="text-gray-400" />
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
 
-                    {/* Pagination */}
+                    {/* Pagination - Common for both views */}
                     {totalPages > 1 && (
-                        <div className="bg-gray-50 dark:bg-slate-700/50 px-6 py-3 border-t border-gray-200 dark:border-slate-700 flex items-center justify-between">
+                        <div className="flex items-center justify-center gap-4 mt-6">
                             <Button
                                 variant="outline"
                                 size="sm"
                                 disabled={page === 0}
                                 onClick={() => setPage(p => Math.max(0, p - 1))}
+                                className="w-10 h-10 p-0 flex items-center justify-center rounded-full"
                             >
-                                <ChevronLeft size={16} className="mr-1" /> Previous
+                                <ChevronLeft size={20} />
                             </Button>
-                            <span className="text-sm text-gray-500 dark:text-slate-400">
-                                Page {page + 1} of {totalPages}
+                            <span className="text-sm font-medium text-gray-600 dark:text-slate-300">
+                                {page + 1} / {totalPages}
                             </span>
                             <Button
                                 variant="outline"
                                 size="sm"
                                 disabled={page >= totalPages - 1}
                                 onClick={() => setPage(p => Math.min(totalPages - 1, p + 1))}
+                                className="w-10 h-10 p-0 flex items-center justify-center rounded-full"
                             >
-                                Next <ChevronRight size={16} className="ml-1" />
+                                <ChevronRight size={20} />
                             </Button>
                         </div>
                     )}
-                </Card>
+                </>
             )}
         </div>
     );

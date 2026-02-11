@@ -163,12 +163,13 @@ const CustomerDetails = () => {
     );
 
     return (
-        <div className="h-[calc(100vh-6rem)] overflow-hidden flex flex-col gap-6 animate-fade-in-up max-w-5xl mx-auto w-full">
-            <div className="flex items-center justify-between shrink-0">
+        <div className="flex flex-col gap-6 animate-fade-in-up max-w-5xl mx-auto w-full pb-10">
+            {/* Header */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div className="flex items-center gap-4">
                     <button
                         onClick={() => navigate(-1)}
-                        className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-400 transition"
+                        className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-slate-700 text-gray-600 dark:text-slate-400 transition flex-shrink-0"
                     >
                         <ArrowLeft size={20} />
                     </button>
@@ -178,54 +179,56 @@ const CustomerDetails = () => {
                     </div>
                 </div>
                 <div>
-                    <span className={`px-3 py-1.5 flex items-center gap-2 rounded-full text-sm font-semibold border ${statusParams.badgeClass}`}>
+                    <span className={`px-3 py-1.5 flex items-center justify-center gap-2 rounded-full text-sm font-semibold border w-full sm:w-auto ${statusParams.badgeClass}`}>
                         {statusParams.headerIcon}
                         {statusParams.label}
                     </span>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 flex-1 min-h-0">
-                <div className="lg:col-span-2 space-y-6 overflow-y-auto pr-2 custom-scrollbar">
-                    <Card className="p-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 shadow-sm dark:shadow-lg">
-                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-white">
-                            <User className="text-indigo-600 dark:text-indigo-400" /> Personal Information
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                {/* Main Info */}
+                <div className="lg:col-span-2 space-y-6">
+                    <Card className="p-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 shadow-sm">
+                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-white border-b border-gray-100 dark:border-slate-700 pb-2">
+                            <User className="text-indigo-600 dark:text-indigo-400" size={20} /> Personal Information
                         </h3>
-                        <div className="grid grid-cols-2 gap-6">
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <div>
-                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1">Full Name</span>
-                                <p className="font-medium text-gray-900 dark:text-white">{customer.name}</p>
+                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1 uppercase tracking-wide">Full Name</span>
+                                <p className="font-medium text-gray-900 dark:text-white text-lg">{customer.name}</p>
                             </div>
                             <div>
-                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1">Email Address</span>
-                                <p className="font-medium text-gray-900 dark:text-white">{customer.email}</p>
+                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1 uppercase tracking-wide">Email Address</span>
+                                <p className="font-medium text-gray-900 dark:text-white break-all">{customer.email}</p>
                             </div>
                             <div>
-                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1">Age</span>
+                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1 uppercase tracking-wide">Age</span>
                                 <p className="font-medium text-gray-900 dark:text-white">{customer.age || "N/A"}</p>
                             </div>
                             <div>
-                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1">Mobile</span>
+                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1 uppercase tracking-wide">Mobile</span>
                                 <p className="font-medium text-gray-900 dark:text-white">{customer.mobileNo || "N/A"}</p>
                             </div>
                             <div>
-                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1">Gender</span>
-                                <p className="font-medium text-gray-900 dark:text-white capitalize">{customer.gender || "N/A"}</p>
+                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1 uppercase tracking-wide">Gender</span>
+                                <p className="font-medium text-gray-900 dark:text-white capitalize">{customer.gender ? customer.gender.toLowerCase() : "N/A"}</p>
                             </div>
                         </div>
                     </Card>
 
-                    <Card className="p-6 border-l-4 border-yellow-500 bg-yellow-50/30 dark:bg-slate-800 dark:border-yellow-600 shadow-sm dark:shadow-lg">
+                    {/* Action Zone */}
+                    <Card className="p-6 border-l-4 border-yellow-500 bg-yellow-50/50 dark:bg-slate-800 dark:border-yellow-600 shadow-sm">
                         <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-white">
-                            <Shield className="text-yellow-600 dark:text-yellow-400" /> Account Actions
+                            <Shield className="text-yellow-600 dark:text-yellow-400" size={20} /> Account Actions
                         </h3>
-                        <div className="flex items-center justify-between">
-                            <p className="text-sm text-gray-600 dark:text-slate-300 max-w-md">
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                            <p className="text-sm text-gray-600 dark:text-slate-300 max-w-md leading-relaxed">
                                 {statusParams.helperText}
                             </p>
                             <Button
                                 onClick={handleToggleStatus}
-                                className={statusParams.actionButtonClass}
+                                className={`${statusParams.actionButtonClass} w-full sm:w-auto flex justify-center items-center shadow-md transition-transform active:scale-95`}
                             >
                                 {statusParams.actionIcon} {statusParams.actionButtonText}
                             </Button>
@@ -233,21 +236,23 @@ const CustomerDetails = () => {
                     </Card>
                 </div>
 
+                {/* Sidebar Info */}
                 <div className="space-y-6">
-                    <Card className="p-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 shadow-sm dark:shadow-lg">
-                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-white">
-                            <Calendar className="text-indigo-600 dark:text-indigo-400" /> Account Meta
+                    {/* Account Meta */}
+                    <Card className="p-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 shadow-sm">
+                        <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-gray-800 dark:text-white border-b border-gray-100 dark:border-slate-700 pb-2">
+                            <Calendar className="text-indigo-600 dark:text-indigo-400" size={20} /> Account Meta
                         </h3>
-                        <div className="space-y-3">
+                        <div className="space-y-4">
                             <div>
-                                <span className="text-xs text-gray-500 dark:text-slate-400 block">Registered On</span>
-                                <p className="font-medium text-sm text-gray-800 dark:text-white">
+                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1 uppercase tracking-wide">Registered On</span>
+                                <p className="font-medium text-sm text-gray-800 dark:text-white bg-gray-50 dark:bg-slate-700/50 p-2 rounded">
                                     {customer.createProfileAt ? new Date(customer.createProfileAt).toLocaleString() : "N/A"}
                                 </p>
                             </div>
                             <div>
-                                <span className="text-xs text-gray-500 dark:text-slate-400 block">Last Updated</span>
-                                <p className="font-medium text-sm text-gray-800 dark:text-white">
+                                <span className="text-xs text-gray-500 dark:text-slate-400 block mb-1 uppercase tracking-wide">Last Updated</span>
+                                <p className="font-medium text-sm text-gray-800 dark:text-white bg-gray-50 dark:bg-slate-700/50 p-2 rounded">
                                     {customer.lastUpdateAt ? new Date(customer.lastUpdateAt).toLocaleString() : "N/A"}
                                 </p>
                             </div>
@@ -255,10 +260,10 @@ const CustomerDetails = () => {
                     </Card>
 
                     {/* Customer Bookings Card */}
-                    <Card className="p-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 shadow-sm dark:shadow-lg flex flex-col flex-1 min-h-0 overflow-hidden max-h-[400px]">
-                        <div className="flex items-center justify-between mb-4 shrink-0">
+                    <Card className="p-6 bg-white dark:bg-slate-800 border-gray-200 dark:border-slate-700 shadow-sm">
+                        <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-semibold flex items-center gap-2 text-gray-800 dark:text-white">
-                                <Clock className="text-indigo-600 dark:text-indigo-400" /> Recent Bookings
+                                <Clock className="text-indigo-600 dark:text-indigo-400" size={20} /> Recent Bookings
                             </h3>
                             <Button
                                 variant="ghost"
@@ -270,47 +275,44 @@ const CustomerDetails = () => {
                             </Button>
                         </div>
 
-                        {bookingsLoading ? (
-                            <div className="space-y-3">
-                                {[1, 2, 3].map(i => (
-                                    <div key={i} className="h-16 bg-gray-100 dark:bg-slate-700 rounded-lg animate-pulse"></div>
-                                ))}
-                            </div>
-                        ) : bookings.length > 0 ? (
-                            <div className="space-y-3 overflow-y-auto pr-1 custom-scrollbar flex-1">
-                                {bookings.map((booking) => (
-                                    <div key={booking.bookingId} className="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-100 dark:border-slate-700">
-                                        <div className="flex justify-between items-start mb-1">
-                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${booking.tripStatus === 'COMPLETED' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' :
+                        <div className="space-y-3">
+                            {bookingsLoading ? (
+                                <div className="space-y-3">
+                                    {[1, 2, 3].map(i => (
+                                        <div key={i} className="h-20 bg-gray-100 dark:bg-slate-700 rounded-lg animate-pulse"></div>
+                                    ))}
+                                </div>
+                            ) : bookings.length > 0 ? (
+                                bookings.map((booking) => (
+                                    <div key={booking.bookingId} onClick={() => navigate(`/admin/bookings/${booking.bookingId}`)} className="p-3 bg-gray-50 dark:bg-slate-700/50 rounded-lg border border-gray-100 dark:border-slate-700 hover:border-indigo-200 dark:hover:border-indigo-500 transition-colors cursor-pointer group">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${booking.tripStatus === 'COMPLETED' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' :
                                                 booking.tripStatus === 'CANCELLED' ? 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300' :
                                                     'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300'
                                                 }`}>
                                                 {booking.tripStatus}
                                             </span>
-                                            <span className="text-xs text-gray-500 dark:text-slate-400 font-medium">₹{booking.billAmount}</span>
+                                            <span className="text-xs text-gray-900 dark:text-white font-bold">₹{booking.billAmount}</span>
                                         </div>
-                                        <div className="flex items-center gap-2 mb-1">
-                                            <div className="h-2 w-2 rounded-full bg-green-500"></div>
-                                            <p className="text-xs font-medium text-gray-800 dark:text-slate-200 truncate" title={booking.pickup}>{booking.pickup}</p>
+                                        <div className="space-y-1.5">
+                                            <div className="flex items-center gap-2">
+                                                <div className="h-1.5 w-1.5 rounded-full bg-green-500 shrink-0"></div>
+                                                <p className="text-xs font-medium text-gray-600 dark:text-slate-300 truncate" title={booking.pickup}>{booking.pickup}</p>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="h-1.5 w-1.5 rounded-full bg-red-500 shrink-0"></div>
+                                                <p className="text-xs font-medium text-gray-600 dark:text-slate-300 truncate" title={booking.destination}>{booking.destination}</p>
+                                            </div>
                                         </div>
-                                        <div className="flex items-center gap-2">
-                                            <div className="h-2 w-2 rounded-full bg-red-500"></div>
-                                            <p className="text-xs font-medium text-gray-800 dark:text-slate-200 truncate" title={booking.destination}>{booking.destination}</p>
-                                        </div>
-                                        {booking.bookedAt && (
-                                            <p className="text-[10px] text-gray-400 dark:text-slate-500 mt-2 text-right">
-                                                {new Date(booking.bookedAt).toLocaleDateString()}
-                                            </p>
-                                        )}
                                     </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <div className="flex flex-col items-center justify-center py-8 text-gray-400 dark:text-slate-500">
-                                <MapPin size={32} className="mb-2 opacity-20" />
-                                <p className="text-sm">No bookings found for this customer.</p>
-                            </div>
-                        )}
+                                ))
+                            ) : (
+                                <div className="flex flex-col items-center justify-center py-8 text-gray-400 dark:text-slate-500">
+                                    <MapPin size={32} className="mb-2 opacity-20" />
+                                    <p className="text-sm">No bookings found</p>
+                                </div>
+                            )}
+                        </div>
                     </Card>
                 </div>
             </div>

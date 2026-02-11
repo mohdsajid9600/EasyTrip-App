@@ -148,44 +148,44 @@ const CustomerProfile = () => {
     if (!profile) return <div className="p-8 text-center text-red-500">Failed to load profile.</div>;
 
     return (
-        <div className="max-w-4xl mx-auto space-y-8 animate-fade-in-up pb-10">
-            <h1 className="text-3xl font-bold text-gray-800 dark:text-slate-100">My Profile</h1>
+        <div className="max-w-4xl mx-auto space-y-6 lg:space-y-8 animate-fade-in-up pb-24 px-4 md:px-0">
+            <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-slate-100 pl-1">My Profile</h1>
 
-            <Card className="border-t-4 border-blue-500 p-8">
-                <div className="flex flex-col md:flex-row items-start gap-8">
+            <Card className="border-t-4 border-blue-500 p-5 lg:p-8 shadow-lg">
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-8">
                     {/* Avatar / Logo Section */}
                     <div className="flex-shrink-0">
-                        <div className="w-32 h-32 bg-blue-100 dark:bg-blue-900/40 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 border-4 border-white dark:border-slate-700 shadow-lg">
-                            <User size={64} />
+                        <div className="w-28 h-28 lg:w-32 lg:h-32 bg-blue-100 dark:bg-blue-900/40 rounded-full flex items-center justify-center text-blue-600 dark:text-blue-400 border-4 border-white dark:border-slate-700 shadow-md">
+                            <User size={56} className="lg:w-16 lg:h-16" />
                         </div>
                     </div>
 
                     <div className="flex-grow w-full">
-                        <div className="flex justify-between items-start mb-6">
-                            <div>
+                        <div className="flex flex-col xl:flex-row justify-between items-center xl:items-start mb-6 gap-4 xl:gap-0">
+                            <div className="text-center xl:text-left">
                                 <h2 className="text-2xl font-bold text-gray-800 dark:text-slate-100">{profile.name}</h2>
-                                <div className="flex flex-wrap items-center gap-3 mt-1">
-                                    <p className="text-gray-500 dark:text-slate-400 flex items-center gap-2">
+                                <div className="flex flex-wrap items-center justify-center xl:justify-start gap-3 mt-2 xl:mt-1">
+                                    <p className="text-gray-500 dark:text-slate-400 flex items-center gap-2 text-sm lg:text-base">
                                         <Mail size={16} /> {profile.email}
                                     </p>
-                                    <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${profile.status === 'ACTIVE' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'}`}>
+                                    <span className={`px-2.5 py-0.5 text-xs font-bold rounded-full ${profile.status === 'ACTIVE' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'}`}>
                                         {profile.status || 'UNKNOWN'}
                                     </span>
                                 </div>
                             </div>
 
                             {!editing && (
-                                <div className="flex gap-2">
-                                    <Button onClick={() => navigate('/customer/change-password')} variant="outline" className="flex items-center gap-2">
-                                        <Lock size={16} /> Change Password
+                                <div className="flex flex-col sm:flex-row gap-3 w-full xl:w-auto">
+                                    <Button onClick={() => navigate('/customer/change-password')} variant="outline" className="flex items-center justify-center gap-2 w-full sm:w-auto h-11 sm:h-auto">
+                                        <Lock size={16} /> <span className="whitespace-nowrap">Change Password</span>
                                     </Button>
-                                    <Button onClick={() => setEditing(true)} variant="secondary">Edit Profile</Button>
+                                    <Button onClick={() => setEditing(true)} variant="secondary" className="w-full sm:w-auto h-11 sm:h-auto">Edit Profile</Button>
                                 </div>
                             )}
                         </div>
 
                         {editing ? (
-                            <form onSubmit={handleUpdate} className="space-y-4 bg-gray-50 dark:bg-slate-700/50 p-6 rounded-xl border border-gray-200 dark:border-slate-600">
+                            <form onSubmit={handleUpdate} className="space-y-4 bg-gray-50 dark:bg-slate-700/50 p-4 lg:p-6 rounded-xl border border-gray-200 dark:border-slate-600">
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                     <Input
                                         label="Full Name"
@@ -194,6 +194,7 @@ const CustomerProfile = () => {
                                         required
                                         placeholder="Enter full name"
                                         error={errors.name}
+                                        className="bg-white dark:bg-slate-800"
                                     />
 
                                     <Input
@@ -206,6 +207,7 @@ const CustomerProfile = () => {
                                         max="90"
                                         placeholder="Enter age (18-90)"
                                         error={errors.age}
+                                        className="bg-white dark:bg-slate-800"
                                     />
 
                                     <Input
@@ -216,24 +218,27 @@ const CustomerProfile = () => {
                                         placeholder="Enter 10 digit mobile number"
                                         maxLength={10}
                                         error={errors.mobileNo}
+                                        className="bg-white dark:bg-slate-800"
                                     />
 
                                     <div>
                                         <label className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-1">Gender</label>
-                                        <AppSelect
-                                            value={formData.gender}
-                                            onChange={(val) => setFormData({ ...formData, gender: val })}
-                                            options={[
-                                                { value: 'MALE', label: 'Male' },
-                                                { value: 'FEMALE', label: 'Female' },
-                                                { value: 'OTHER', label: 'Other' }
-                                            ]}
-                                            placeholder="Select Gender"
-                                        />
+                                        <div className="bg-white dark:bg-slate-800 rounded-lg">
+                                            <AppSelect
+                                                value={formData.gender}
+                                                onChange={(val) => setFormData({ ...formData, gender: val })}
+                                                options={[
+                                                    { value: 'MALE', label: 'Male' },
+                                                    { value: 'FEMALE', label: 'Female' },
+                                                    { value: 'OTHER', label: 'Other' }
+                                                ]}
+                                                placeholder="Select Gender"
+                                            />
+                                        </div>
                                         {errors.gender && <p className="text-red-500 text-xs mt-1">{errors.gender}</p>}
                                     </div>
                                 </div>
-                                <div className="flex justify-end gap-3 pt-4">
+                                <div className="flex flex-col-reverse sm:flex-row justify-end gap-3 pt-4 border-t border-gray-200 dark:border-slate-600 mt-4">
                                     <Button
                                         type="button"
                                         variant="outline"
@@ -247,36 +252,36 @@ const CustomerProfile = () => {
                                             });
                                             setErrors({});
                                         }}
-                                        className="h-10 px-5 flex items-center justify-center gap-2"
+                                        className="h-11 md:h-10 px-5 flex items-center justify-center gap-2 w-full sm:w-auto"
                                     >
                                         <X size={16} /> Cancel
                                     </Button>
                                     <Button
                                         type="submit"
                                         disabled={submitting}
-                                        className="h-10 px-5 flex items-center justify-center gap-2"
+                                        className="h-11 md:h-10 px-5 flex items-center justify-center gap-2 w-full sm:w-auto"
                                     >
                                         <Save size={16} /> {submitting ? 'Saving...' : 'Save Changes'}
                                     </Button>
                                 </div>
                             </form>
                         ) : (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase">Age</p>
-                                    <p className="font-semibold text-gray-800 dark:text-slate-100 text-lg">{profile.age || 'N/A'} Years</p>
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
+                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg border border-gray-100 dark:border-slate-600 hover:shadow-sm transition-shadow">
+                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Age</p>
+                                    <p className="font-semibold text-gray-800 dark:text-slate-100 text-lg mt-1">{profile.age || 'N/A'} <span className="text-sm font-normal text-gray-500">Years</span></p>
                                 </div>
-                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase">Gender</p>
-                                    <p className="font-semibold text-gray-800 dark:text-slate-100 text-lg capitalize">{profile.gender ? profile.gender.toLowerCase() : 'N/A'}</p>
+                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg border border-gray-100 dark:border-slate-600 hover:shadow-sm transition-shadow">
+                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Gender</p>
+                                    <p className="font-semibold text-gray-800 dark:text-slate-100 text-lg mt-1 capitalize">{profile.gender ? profile.gender.toLowerCase() : 'N/A'}</p>
                                 </div>
-                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase">Mobile Number</p>
-                                    <p className="font-semibold text-gray-800 dark:text-slate-100 text-lg">{profile.mobileNo || 'N/A'}</p>
+                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg border border-gray-100 dark:border-slate-600 hover:shadow-sm transition-shadow">
+                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Mobile Number</p>
+                                    <p className="font-semibold text-gray-800 dark:text-slate-100 text-lg mt-1">{profile.mobileNo || 'N/A'}</p>
                                 </div>
-                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg">
-                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase">Status</p>
-                                    <span className={`inline-block mt-1 px-3 py-1 text-xs font-bold rounded-full ${profile.status === 'ACTIVE' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300'}`}>
+                                <div className="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg border border-gray-100 dark:border-slate-600 hover:shadow-sm transition-shadow">
+                                    <p className="text-xs text-gray-500 dark:text-slate-400 uppercase tracking-wider font-semibold">Account Status</p>
+                                    <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-sm font-medium mt-1 ${profile.status === 'ACTIVE' ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300' : 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300'}`}>
                                         {profile.status || 'UNKNOWN'}
                                     </span>
                                 </div>
@@ -288,21 +293,20 @@ const CustomerProfile = () => {
             </Card>
 
             {/* Deactivate Profile Card */}
-            <Card className="border-t-4 border-red-500 p-8 bg-red-50 dark:bg-red-900/10">
-                <div className="flex items-start gap-4">
-                    <div className="p-3 bg-red-100 dark:bg-red-900/40 rounded-full text-red-600 dark:text-red-400">
+            <Card className="border-t-4 border-red-500 p-5 lg:p-8 bg-red-50 dark:bg-red-900/10 shadow-lg">
+                <div className="flex flex-col lg:flex-row items-center lg:items-start gap-4 lg:gap-6 text-center lg:text-left">
+                    <div className="p-3 bg-red-100 dark:bg-red-900/40 rounded-full text-red-600 dark:text-red-400 flex-shrink-0">
                         <LogOut size={32} />
                     </div>
                     <div>
                         <h3 className="text-xl font-bold text-gray-900 dark:text-slate-100">Deactivate Profile</h3>
-                        <p className="text-gray-600 dark:text-slate-400 mt-2 max-w-xl">
-                            Deactivating your profile will disable your account and log you out.
+                        <p className="text-gray-600 dark:text-slate-400 mt-2 max-w-xl text-sm lg:text-base">
+                            Deactivating your profile will disable your account and log you out immediately.
                             You cannot perform this action if you have an active ride.
-                            This action is reversible only by contacting support or reactivating via login flow (if supported).
                         </p>
                         <Button
                             onClick={handleDeactivate}
-                            className="mt-6 bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center gap-2"
+                            className="mt-6 bg-red-600 hover:bg-red-700 text-white shadow-md flex items-center justify-center gap-2 w-full sm:w-auto mx-auto lg:mx-0 h-11 md:h-10"
                         >
                             <LogOut size={18} /> Deactivate Account
                         </Button>

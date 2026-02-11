@@ -170,8 +170,8 @@ const AllBookings = () => {
                         </div>
                     ) : (
                         <>
-                            {/* Desktop Table View */}
-                            <div className="hidden md:block overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
+                            {/* Desktop Table View (Visible on Large Screens) */}
+                            <div className="hidden lg:block overflow-hidden rounded-xl border border-gray-200 dark:border-slate-700 shadow-sm bg-white dark:bg-slate-900">
                                 <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-800">
                                     <thead className="bg-gray-50 dark:bg-slate-800">
                                         <tr>
@@ -207,11 +207,11 @@ const AllBookings = () => {
                                                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-300">
                                                     <div className="flex flex-col gap-1 max-w-[200px]">
                                                         <span className="flex items-center gap-1 truncate" title={b.pickup}>
-                                                            <MapPin size={12} className="text-green-500 flex-shrink-0" />
+                                                            <div className="w-2 h-2 rounded-full bg-green-500 flex-shrink-0"></div>
                                                             <span className="truncate">{b.pickup}</span>
                                                         </span>
                                                         <span className="flex items-center gap-1 truncate" title={b.destination}>
-                                                            <Navigation size={12} className="text-red-500 flex-shrink-0" />
+                                                            <div className="w-2 h-2 rounded-full bg-red-500 flex-shrink-0"></div>
                                                             <span className="truncate">{b.destination}</span>
                                                         </span>
                                                     </div>
@@ -226,12 +226,12 @@ const AllBookings = () => {
                                                     ₹{b.billAmount || 0}
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full border ${getStatusColor(b.tripStatus)}`}>
+                                                    <span className={`px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-full border ${getStatusColor(b.tripStatus)}`}>
                                                         {getDisplayStatus(b.tripStatus)}
                                                     </span>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                                    <span className="text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-900 dark:group-hover:text-indigo-300 flex items-center justify-end gap-1">
+                                                    <span className="text-indigo-600 dark:text-indigo-400 group-hover:text-indigo-900 dark:group-hover:text-indigo-300 flex items-center justify-end gap-1 transition-colors">
                                                         Details <ChevronRight size={16} />
                                                     </span>
                                                 </td>
@@ -241,42 +241,54 @@ const AllBookings = () => {
                                 </table>
                             </div>
 
-                            {/* Mobile Card View */}
-                            <div className="md:hidden space-y-4">
+                            {/* Mobile/Tablet Card View (Visible on Small/Medium Screens) */}
+                            <div className="lg:hidden space-y-4">
                                 {filteredBookings.map(b => (
-                                    <Card
+                                    <div
                                         key={b.bookingId}
-                                        className="p-4 space-y-3 cursor-pointer hover:border-indigo-200 dark:hover:border-indigo-800 transition bg-white dark:bg-slate-800 border border-gray-200 dark:border-slate-700"
                                         onClick={() => handleRowClick(b.bookingId)}
+                                        className="bg-white dark:bg-slate-800 rounded-xl p-5 border border-gray-200 dark:border-slate-700 shadow-sm hover:shadow-md transition-all active:scale-[0.99] cursor-pointer"
                                     >
-                                        <div className="flex justify-between items-start">
-                                            <span className="font-bold text-gray-800 dark:text-slate-100">Booking BK-{b.bookingId}</span>
-                                            <span className={`px-2 py-1 rounded text-xs font-bold border ${getStatusColor(b.tripStatus)}`}>
+                                        <div className="flex justify-between items-start mb-4">
+                                            <div>
+                                                <div className="flex items-center gap-2">
+                                                    <span className="text-lg font-bold text-gray-800 dark:text-slate-100">BK-{b.bookingId}</span>
+                                                    <span className="text-xs text-gray-400 bg-gray-100 dark:bg-slate-700 px-2 py-0.5 rounded-full">
+                                                        {b.bookedAt ? new Date(b.bookedAt).toLocaleDateString() : "-"}
+                                                    </span>
+                                                </div>
+                                                <p className="text-sm text-gray-500 dark:text-slate-400 mt-1 flex items-center gap-1">
+                                                    <User size={14} /> {b.customerResponse?.name || "Customer"}
+                                                </p>
+                                            </div>
+                                            <span className={`px-2.5 py-1 rounded text-xs font-bold border ${getStatusColor(b.tripStatus)}`}>
                                                 {getDisplayStatus(b.tripStatus)}
                                             </span>
                                         </div>
-                                        <div className="space-y-2 text-sm text-gray-600 dark:text-slate-300">
-                                            <div className="flex items-center gap-2">
-                                                <MapPin size={14} className="text-green-600" />
-                                                <span className="truncate">{b.pickup}</span>
+
+                                        <div className="space-y-3 relative pl-4 border-l-2 border-gray-100 dark:border-slate-700 ml-1">
+                                            <div className="relative">
+                                                <div className="absolute -left-[21px] top-1.5 w-3 h-3 bg-green-500 rounded-full border-2 border-white dark:border-slate-800 ring-1 ring-green-100 dark:ring-green-900"></div>
+                                                <p className="text-xs text-gray-400 uppercase tracking-wide">Pickup</p>
+                                                <p className="text-sm font-medium text-gray-800 dark:text-slate-200 line-clamp-1">{b.pickup}</p>
                                             </div>
-                                            <div className="flex items-center gap-2">
-                                                <Navigation size={14} className="text-red-600" />
-                                                <span className="truncate">{b.destination}</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 mt-2 pt-2 border-t border-gray-100 dark:border-slate-700">
-                                                <User size={14} />
-                                                <span>{b.customerResponse?.name || "Customer"}</span>
-                                            </div>
-                                        </div>
-                                        <div className="pt-2 flex justify-between items-center text-sm font-medium">
-                                            <span className="text-gray-500 dark:text-slate-400">Total Amount:</span>
-                                            <div className="flex items-center gap-2">
-                                                <span className="text-lg text-gray-900 dark:text-slate-100">₹{b.billAmount || 0}</span>
-                                                <ChevronRight size={16} className="text-gray-400" />
+                                            <div className="relative">
+                                                <div className="absolute -left-[21px] top-1.5 w-3 h-3 bg-red-500 rounded-full border-2 border-white dark:border-slate-800 ring-1 ring-red-100 dark:ring-red-900"></div>
+                                                <p className="text-xs text-gray-400 uppercase tracking-wide">Destination</p>
+                                                <p className="text-sm font-medium text-gray-800 dark:text-slate-200 line-clamp-1">{b.destination}</p>
                                             </div>
                                         </div>
-                                    </Card>
+
+                                        <div className="mt-5 pt-4 border-t border-gray-100 dark:border-slate-700 flex justify-between items-center">
+                                            <div>
+                                                <p className="text-xs text-gray-400 uppercase">Total Fare</p>
+                                                <p className="text-xl font-bold text-gray-900 dark:text-slate-100">₹{b.billAmount || 0}</p>
+                                            </div>
+                                            <div className="flex items-center gap-2 text-sm font-medium text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-900/30 px-3 py-1.5 rounded-lg">
+                                                View Details <ChevronRight size={16} />
+                                            </div>
+                                        </div>
+                                    </div>
                                 ))}
                             </div>
 
