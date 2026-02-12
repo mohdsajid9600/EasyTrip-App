@@ -169,65 +169,117 @@ const MyBookings = () => {
                             </p>
                         </div>
                     ) : (
-                        <div className="overflow-x-auto">
-                            <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
-                                <thead className="bg-gray-50 dark:bg-slate-700/50">
-                                    <tr>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Journey Details</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Fare</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Cab Model</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Cab Rate</th>
-                                        <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
-                                    {filteredBookings.map((booking, idx) => (
-                                        <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                                                <div className="flex flex-col">
-                                                    <span className="font-medium text-gray-700 dark:text-slate-300">
-                                                        {booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString() : 'N/A'}
-                                                    </span>
-                                                    <span className="text-xs text-gray-400 dark:text-slate-500">
-                                                        {booking.bookedAt ? new Date(booking.bookedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
-                                                    </span>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 text-sm text-gray-900 dark:text-slate-200">
-                                                <div className="flex flex-col gap-2">
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                                                        <span className="text-xs text-gray-500 dark:text-slate-400">From:</span>
-                                                        <span className="font-semibold text-gray-800 dark:text-slate-200">{booking.pickup}</span>
-                                                    </div>
-                                                    <div className="flex items-center gap-2">
-                                                        <div className="w-2 h-2 rounded-full bg-red-500"></div>
-                                                        <span className="text-xs text-gray-500 dark:text-slate-400">To:</span>
-                                                        <span className="font-semibold text-gray-800 dark:text-slate-200">{booking.destination}</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-slate-100">
-                                                ₹{booking.billAmount}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                                                {booking.cabResponse?.cabModel || 'N/A'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
-                                                {booking.cabRateAtBooking ? `₹${booking.cabRateAtBooking}/km` : 'N/A'}
-                                            </td>
-                                            <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(booking.tripStatus)}`}>
-                                                    {getDisplayStatus(booking.tripStatus)}
-                                                </span>
-                                            </td>
+                        <>
+                            {/* Desktop Table View */}
+                            <div className="hidden md:block overflow-x-auto">
+                                <table className="min-w-full divide-y divide-gray-200 dark:divide-slate-700">
+                                    <thead className="bg-gray-50 dark:bg-slate-700/50">
+                                        <tr>
+                                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Date</th>
+                                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Journey Details</th>
+                                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Fare</th>
+                                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Cab Model</th>
+                                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Cab Rate</th>
+                                            <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 dark:text-slate-400 uppercase tracking-wider">Status</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    )}
+                                    </thead>
+                                    <tbody className="bg-white dark:bg-slate-800 divide-y divide-gray-200 dark:divide-slate-700">
+                                        {filteredBookings.map((booking, idx) => (
+                                            <tr key={idx} className="hover:bg-gray-50 dark:hover:bg-slate-700/50 transition-colors">
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
+                                                    <div className="flex flex-col">
+                                                        <span className="font-medium text-gray-700 dark:text-slate-300">
+                                                            {booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString() : 'N/A'}
+                                                        </span>
+                                                        <span className="text-xs text-gray-400 dark:text-slate-500">
+                                                            {booking.bookedAt ? new Date(booking.bookedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}
+                                                        </span>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 text-sm text-gray-900 dark:text-slate-200">
+                                                    <div className="flex flex-col gap-2">
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                                                            <span className="text-xs text-gray-500 dark:text-slate-400">From:</span>
+                                                            <span className="font-semibold text-gray-800 dark:text-slate-200">{booking.pickup}</span>
+                                                        </div>
+                                                        <div className="flex items-center gap-2">
+                                                            <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                                                            <span className="text-xs text-gray-500 dark:text-slate-400">To:</span>
+                                                            <span className="font-semibold text-gray-800 dark:text-slate-200">{booking.destination}</span>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm font-bold text-gray-900 dark:text-slate-100">
+                                                    ₹{booking.billAmount}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
+                                                    {booking.cabResponse?.cabModel || 'N/A'}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-slate-400">
+                                                    {booking.cabRateAtBooking ? `₹${booking.cabRateAtBooking}/km` : 'N/A'}
+                                                </td>
+                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                    <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(booking.tripStatus)}`}>
+                                                        {getDisplayStatus(booking.tripStatus)}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            {/* Mobile Card View */}
+                            <div className="md:hidden space-y-4 p-4 bg-gray-50 dark:bg-slate-900/50">
+                                {filteredBookings.map((booking, idx) => (
+                                    <div key={idx} className="bg-white dark:bg-slate-800 rounded-lg shadow-sm border border-gray-200 dark:border-slate-700 p-4 space-y-4">
+                                        {/* Header with Date and Status */}
+                                        <div className="flex justifying-between items-start justify-between">
+                                            <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-slate-400">
+                                                <Calendar size={16} className="text-indigo-500" />
+                                                <span>{booking.bookedAt ? new Date(booking.bookedAt).toLocaleDateString() : 'N/A'}</span>
+                                                <span className="text-xs mx-1">•</span>
+                                                <span>{booking.bookedAt ? new Date(booking.bookedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : ''}</span>
+                                            </div>
+                                            <span className={`px-2 py-0.5 inline-flex text-xs leading-5 font-semibold rounded-full ${getStatusColor(booking.tripStatus)}`}>
+                                                {getDisplayStatus(booking.tripStatus)}
+                                            </span>
+                                        </div>
+
+                                        {/* Journey Details */}
+                                        <div className="space-y-3 pl-2 border-l-2 border-gray-100 dark:border-slate-700 ml-1">
+                                            <div className="relative">
+                                                <div className="absolute -left-[13px] top-1.5 w-2 h-2 rounded-full bg-green-500 ring-2 ring-white dark:ring-slate-800"></div>
+                                                <p className="text-xs text-gray-500 dark:text-slate-400">Pickup</p>
+                                                <p className="text-sm font-semibold text-gray-800 dark:text-slate-200">{booking.pickup}</p>
+                                            </div>
+                                            <div className="relative">
+                                                <div className="absolute -left-[13px] top-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-slate-800"></div>
+                                                <p className="text-xs text-gray-500 dark:text-slate-400">Destination</p>
+                                                <p className="text-sm font-semibold text-gray-800 dark:text-slate-200">{booking.destination}</p>
+                                            </div>
+                                        </div>
+
+                                        {/* Divider */}
+                                        <div className="border-t border-gray-100 dark:border-slate-700"></div>
+
+                                        {/* Footer Info */}
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <p className="text-xs text-gray-500 dark:text-slate-400 mb-1">Fare</p>
+                                                <p className="text-lg font-bold text-indigo-600 dark:text-indigo-400">₹{booking.billAmount}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-xs text-gray-500 dark:text-slate-400 mb-1">Cab Details</p>
+                                                <p className="text-sm font-medium text-gray-700 dark:text-slate-300">{booking.cabResponse?.cabModel || 'N/A'}</p>
+                                                <p className="text-xs text-gray-400">{booking.cabRateAtBooking ? `₹${booking.cabRateAtBooking}/km` : 'N/A'}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </>)}
                 </Card>
 
                 <Pagination
@@ -236,8 +288,8 @@ const MyBookings = () => {
                     onPageChange={setPage}
                     loading={loading}
                 />
-            </div>
-        </div>
+            </div >
+        </div >
     );
 };
 
