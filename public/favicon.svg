@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
+  <!-- Background: Indigo-600 (#4f46e5) with rounded corners (rounded-xl approx 12px radius) -->
+  <rect x="0" y="0" width="40" height="40" rx="12" fill="#4f46e5" />
+  
+  <!-- Icon: Lucide Car, centered (8px offset for p-2 padding), white stroke, 2.5px width -->
+  <g transform="translate(8, 8)" stroke="white" stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M19 17h2c.6 0 1 .4 1 1v3c0 .6-.4 1-1 1h-2c-.6 0-1-.4-1-1v-3c0-.6.4-1 1-1Z" />
+    <path d="M5 17h2c.6 0 1 .4 1 1v3c0 .6-.4 1-1 1H5c-.6 0-1-.4-1-1v-3c0-.6.4-1 1-1Z" />
+    <path d="M2 12h20" />
+    <path d="M21 17v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6" />
+    <path d="m18 9-2.5-5h-7L6 9" />
+  </g>
+</svg>
