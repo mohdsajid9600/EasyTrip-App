@@ -54,7 +54,12 @@ const Sidebar = ({ isOpen, onToggle }) => {
                         return (
                             <button
                                 key={item.path}
-                                onClick={() => navigate(item.path)}
+                                onClick={() => {
+                                    navigate(item.path);
+                                    if (window.innerWidth < 768) {
+                                        onToggle();
+                                    }
+                                }}
                                 className={clsx(
                                     "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-colors whitespace-nowrap",
                                     isActive ? "bg-blue-600 text-white" : "text-gray-400 hover:bg-gray-800 dark:hover:bg-slate-800 hover:text-white"

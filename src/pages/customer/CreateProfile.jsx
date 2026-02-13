@@ -9,7 +9,7 @@ import Footer from '../../components/layout/Footer';
 import { ArrowLeft } from 'lucide-react';
 
 const CreateProfile = () => {
-    const { user, refreshProfile } = useAuth();
+    const { user, refreshProfile, logout } = useAuth();
     const { showError } = useModal();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -20,6 +20,11 @@ const CreateProfile = () => {
         mobileNo: ''
     });
     const [loading, setLoading] = useState(false);
+
+    const handleBack = async () => {
+        await logout();
+        navigate('/login', { replace: true });
+    };
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -79,7 +84,7 @@ const CreateProfile = () => {
                     {/* Back Button */}
                     <div className="mb-6">
                         <button
-                            onClick={() => navigate(-1)}
+                            onClick={handleBack}
                             className="flex items-center gap-2 text-gray-700 dark:text-gray-300 hover:text-indigo-600 dark:hover:text-indigo-400 transition-colors bg-white/50 dark:bg-slate-800/50 backdrop-blur px-4 py-2 rounded-lg border border-gray-200 dark:border-slate-700 shadow-sm"
                         >
                             <ArrowLeft size={20} />

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import Sidebar from '../components/layout/Sidebar';
 import { useAuth } from '../context/AuthContext';
@@ -11,6 +11,7 @@ const DashboardLayout = () => {
     // Default closed on mobile, open on desktop
     const [isSidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768);
     const [showProfileMenu, setShowProfileMenu] = useState(false);
+    const profileRef = useRef(null);
 
     // Handle window resize to auto-adjust
     useEffect(() => {
@@ -24,6 +25,25 @@ const DashboardLayout = () => {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
+
+    // Handle click outside to close profile menu
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (profileRef.current && !profileRef.current.contains(event.target)) {
+                setShowProfileMenu(false);
+            }
+        };
+
+        if (showProfileMenu) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [showProfileMenu]);
 
     return (
         <div className="flex h-screen bg-gray-50 dark:bg-slate-900 overflow-hidden relative transition-colors duration-300">
@@ -60,7 +80,7 @@ const DashboardLayout = () => {
                         </button>
 
                         {/* RIGHT: Profile & Dropdown */}
-                        <div className="relative">
+                        <div className="relative" ref={profileRef}>
                             <button
                                 onClick={() => setShowProfileMenu(!showProfileMenu)}
                                 className="flex items-center gap-2 p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-700 transition focus:outline-none text-gray-700 dark:text-slate-200"
