@@ -4,6 +4,7 @@ import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { Input } from '../../components/ui/Input';
 import { Car, AlertTriangle, Save, X, Edit2 } from 'lucide-react';
+import AppLoader from '../../components/ui/AppLoader';
 import { useModal } from '../../context/ModalContext';
 
 const MyCab = () => {
@@ -96,6 +97,7 @@ const MyCab = () => {
             return;
         }
 
+        setIsSubmitting(true);
         try {
             const response = await registerCab(formData);
             if (response?.success) {
@@ -131,6 +133,8 @@ const MyCab = () => {
                     message: error.response?.data?.message || "Something went wrong. Please try again."
                 });
             }
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -170,13 +174,14 @@ const MyCab = () => {
         }
     }
 
-    if (loading) return <div className="p-8 text-center text-gray-500">Checking cab status...</div>;
+    if (loading) return <AppLoader text="Checking cab status..." />;
 
     // --- CASE 1: NO CAB REGISTERED ---
     if (!cab) {
         if (!isRegistering) {
             return (
                 <div className="max-w-2xl mx-auto space-y-8 animate-fade-in-up">
+                    {isSubmitting && <AppLoader text="processing..." />}
                     <h1 className="text-3xl font-bold text-gray-800 dark:text-slate-100">My Cab</h1>
                     <Card className="p-10 border-2 border-dashed border-gray-300 dark:border-slate-700 flex flex-col items-center justify-center text-center hover:bg-gray-50 dark:hover:bg-slate-800/50 transition cursor-pointer" onClick={() => setIsRegistering(true)}>
                         <div className="p-4 bg-gray-100 dark:bg-slate-800 rounded-full mb-4 text-gray-400 dark:text-slate-500">
@@ -254,6 +259,7 @@ const MyCab = () => {
 
     return (
         <div className="max-w-4xl mx-auto space-y-6 lg:space-y-8 animate-fade-in-up pb-20">
+            {isSubmitting && <AppLoader text="Updating cab details..." />}
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-slate-100 pl-1">My Cab Details</h1>
 
             <Card className="border-t-4 border-yellow-500 p-5 lg:p-8 shadow-lg">

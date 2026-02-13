@@ -7,6 +7,7 @@ import AppSelect from '../../components/ui/AppSelect';
 import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import { ArrowLeft } from 'lucide-react';
+import AppLoader from '../../components/ui/AppLoader';
 
 const CreateProfile = () => {
     const { user, refreshProfile, logout } = useAuth();
@@ -74,6 +75,7 @@ const CreateProfile = () => {
 
     return (
         <div className="min-h-screen flex flex-col font-sans transition-colors duration-300">
+            {loading && <AppLoader text="Creating profile..." />}
             <Header />
             <main className="flex-grow flex items-center justify-center relative pt-16">
                 {/* Background */}

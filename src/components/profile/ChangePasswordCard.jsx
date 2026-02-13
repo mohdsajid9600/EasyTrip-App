@@ -4,6 +4,7 @@ import { Card } from '../ui/Card';
 import { Input } from '../ui/Input';
 import { Button } from '../ui/Button';
 import { Lock, ArrowLeft } from 'lucide-react';
+import AppLoader from '../ui/AppLoader';
 import api from '../../api/axios';
 import { useModal } from '../../context/ModalContext';
 import { useAuth } from '../../context/AuthContext';
@@ -60,6 +61,7 @@ const ChangePasswordCard = ({ backUrl }) => {
                 </div>
                 <div className="flex-grow w-full">
                     <h3 className="text-xl font-bold text-gray-900 dark:text-slate-100 mb-4">Change Password</h3>
+                    {loading && <AppLoader text="Changing password..." />}
                     <form onSubmit={handleSubmit} className="space-y-4 max-w-lg">
 
                         <Input

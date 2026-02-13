@@ -7,6 +7,7 @@ import { Card } from '../../components/ui/Card';
 import { MapPin, Navigation, Clock, AlertTriangle, CheckCircle, XCircle, Calendar, Edit2, Trash2 } from 'lucide-react';
 import { useModal } from '../../context/ModalContext';
 import Pagination from '../../components/ui/Pagination';
+import AppLoader from '../../components/ui/AppLoader';
 
 const BookingWindow = () => {
     const navigate = useNavigate();
@@ -251,6 +252,8 @@ const BookingWindow = () => {
                 <h1 className="text-3xl font-bold text-gray-800 dark:text-slate-100">Booking Window</h1>
             </div>
 
+            {bookingLoading && <AppLoader text="Processing booking..." />}
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
                 {/* 1. Book Cab Card */}
@@ -337,7 +340,7 @@ const BookingWindow = () => {
                     </h2>
 
                     {loadingActive ? (
-                        <p className="text-gray-400 dark:text-slate-500">Loading active ride...</p>
+                        <AppLoader text="Loading active ride..." />
                     ) : activeBooking ? (
                         <div className="animate-fade-in-up">
                             {editMode ? (
@@ -447,7 +450,7 @@ const BookingWindow = () => {
 
                 <div className="space-y-4">
                     {historyLoading ? (
-                        <p className="text-center py-10 text-gray-500 dark:text-slate-400">Loading history...</p>
+                        <AppLoader text="Loading history..." />
                     ) : history.length > 0 ? (
                         <>
                             <div className="overflow-x-auto">

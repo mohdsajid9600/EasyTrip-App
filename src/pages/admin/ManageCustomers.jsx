@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useModal } from '../../context/ModalContext';
 import { User, Mail, Phone, Shield, ShieldOff } from 'lucide-react';
 import Pagination from '../../components/ui/Pagination';
+import AppLoader from '../../components/ui/AppLoader';
 
 const ManageCustomers = () => {
     const [customers, setCustomers] = useState([]);
@@ -73,10 +74,7 @@ const ManageCustomers = () => {
                 <User className="text-blue-600" /> Manage Customers
             </h2>
             {loading ? (
-                <div className="p-12 text-center bg-white dark:bg-slate-800 rounded-xl border border-gray-100 dark:border-slate-700">
-                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-500 dark:text-slate-400">Loading customers...</p>
-                </div>
+                <AppLoader text="Loading customers..." />
             ) : (
                 <div className="space-y-4">
                     <div className="grid gap-4">

@@ -6,11 +6,13 @@ import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import { Lock, Mail, ArrowRight, Eye, EyeOff } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
+import AppLoader from '../../components/ui/AppLoader';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { login, user, role, loading } = useAuth();
     const { showError, BD_Success, showSuccess } = useModal();
     const navigate = useNavigate();
@@ -25,7 +27,9 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setIsSubmitting(true);
         const result = await login(email, password);
+        setIsSubmitting(false);
         console.log("Login result:", result);
         if (result.success) {
             // Optional: Show success modal if backend provides a message, but usually login is seamless
@@ -50,6 +54,7 @@ const Login = () => {
 
     return (
         <div className="min-h-screen flex flex-col font-sans">
+            {(loading || isSubmitting) && <AppLoader text={loading ? "Initializing..." : "Logging in..."} />}
             <Header />
             <main className="flex-grow flex items-center justify-center relative pt-16">
                 {/* Background */}

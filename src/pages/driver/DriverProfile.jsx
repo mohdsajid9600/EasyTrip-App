@@ -8,6 +8,7 @@ import { Input } from '../../components/ui/Input';
 import { Button } from '../../components/ui/Button';
 import AppSelect from '../../components/ui/AppSelect';
 import { User, Mail, LogOut, Lock, Save, X } from 'lucide-react';
+import AppLoader from '../../components/ui/AppLoader';
 
 const DriverProfile = () => {
     const { logout } = useAuth();
@@ -161,11 +162,12 @@ const DriverProfile = () => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-gray-500">Loading profile...</div>;
+    if (loading) return <AppLoader text="Loading profile..." />;
     if (!profile) return <div className="p-8 text-center text-red-500">Failed to load profile.</div>;
 
     return (
         <div className="max-w-4xl mx-auto space-y-6 lg:space-y-8 animate-fade-in-up pb-24 px-4 md:px-0">
+            {submitting && <AppLoader text="Updating profile..." />}
             <h1 className="text-2xl lg:text-3xl font-bold text-gray-800 dark:text-slate-100 pl-1">My Profile</h1>
 
             <Card className="border-t-4 border-blue-500 p-5 lg:p-8 shadow-lg">

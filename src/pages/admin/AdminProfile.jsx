@@ -3,6 +3,7 @@ import api from '../../api/axios';
 import { Card } from '../../components/ui/Card';
 import { User, Mail, Shield } from 'lucide-react';
 import ChangePasswordCard from '../../components/profile/ChangePasswordCard';
+import AppLoader from '../../components/ui/AppLoader';
 
 const AdminProfile = () => {
     const [profile, setProfile] = useState(null);
@@ -24,7 +25,7 @@ const AdminProfile = () => {
         fetchProfile();
     }, []);
 
-    if (loading) return <div className="p-8 text-center text-gray-500">Loading profile...</div>;
+    if (loading) return <AppLoader text="Loading profile..." />;
     if (!profile) return <div className="p-8 text-center text-red-500">Failed to load profile.</div>;
 
     return (

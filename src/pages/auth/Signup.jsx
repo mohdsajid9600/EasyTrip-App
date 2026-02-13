@@ -6,6 +6,7 @@ import Header from '../../components/layout/Header';
 import Footer from '../../components/layout/Footer';
 import { Lock, Mail, User, ArrowRight, Car, Users, Eye, EyeOff, CheckCircle2 } from 'lucide-react';
 import { Button } from '../../components/ui/Button';
+import AppLoader from '../../components/ui/AppLoader';
 
 const Signup = () => {
     const [formData, setFormData] = useState({
@@ -14,6 +15,7 @@ const Signup = () => {
         role: 'CUSTOMER'
     });
     const [showPassword, setShowPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const { showSuccess, showError, showConfirm } = useModal();
     const { register, user, role, loading } = useAuth();
     const navigate = useNavigate();
@@ -43,13 +45,16 @@ const Signup = () => {
 
     const performRegistration = async () => {
         try {
+            setIsSubmitting(true);
             const response = await register(formData);
+            setIsSubmitting(false);
             showSuccess({
                 title: "Registration Successful",
                 message: response?.message || "Your account has been created successfully! Redirecting to login...",
                 onConfirm: () => navigate('/login')
             });
         } catch (err) {
+            setIsSubmitting(false);
             showError({ title: "Registration Failed", message: err.toString() });
         }
     };
@@ -89,6 +94,7 @@ const Signup = () => {
 
     return (
         <div className="min-h-screen flex flex-col font-sans bg-white dark:bg-slate-900 transition-colors duration-300 overflow-x-hidden">
+            {(loading || isSubmitting) && <AppLoader text={loading ? "Initializing..." : "Creating account..."} />}
             <Header />
             <main className="flex-grow flex pt-16 animate-fade-in min-h-[calc(100vh-64px)]">
 

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import api from '../../api/axios';
 import { Calendar, MapPin, Clock, CreditCard } from 'lucide-react';
+import AppLoader from '../../components/ui/AppLoader';
 
 const CustomerDashboard = () => {
     const { user, role } = useAuth();
@@ -68,7 +69,7 @@ const CustomerDashboard = () => {
                     </div>
 
                     {loadingRide ? (
-                        <p className="text-gray-400">Loading ride details...</p>
+                        <AppLoader text="Loading ride details..." />
                     ) : activeRide ? (
                         <div className="space-y-4">
                             {/* Trip Info */}

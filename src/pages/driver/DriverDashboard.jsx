@@ -8,6 +8,7 @@ import {
 import { Card } from '../../components/ui/Card';
 import { Button } from '../../components/ui/Button';
 import { useNavigate } from 'react-router-dom';
+import AppLoader from '../../components/ui/AppLoader';
 import { Car, IndianRupee, MapPin, Navigation, Clock, AlertCircle } from 'lucide-react';
 
 const DriverDashboard = () => {
@@ -62,7 +63,7 @@ const DriverDashboard = () => {
     };
 
     if (loading) {
-        return <div className="p-8 text-center text-gray-500">Loading dashboard...</div>;
+        return <AppLoader text="Loading dashboard..." />;
     }
 
     // Cab is available ONLY if driver is not busy with a trip

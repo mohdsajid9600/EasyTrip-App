@@ -1,5 +1,6 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { Button } from '../components/ui/Button';
+import AppLoader from '../components/ui/AppLoader';
 import { useAuth } from '../context/AuthContext';
 import { useEffect } from 'react';
 import Header from '../components/layout/Header';
@@ -19,7 +20,7 @@ const Home = () => {
         }
     }, [user, role, loading, navigate]);
 
-    if (loading) return <div className="min-h-screen flex items-center justify-center bg-white"><div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div></div>;
+    if (loading) return <AppLoader text="Initializing application..." />;
 
     return (
         <div className="flex flex-col min-h-screen font-sans text-gray-900 dark:text-slate-100 bg-white dark:bg-slate-900 transition-colors duration-300">
